@@ -1,1 +1,1 @@
-0x00-python-hello_world files
+0x00-python-hello_world project

@@ -1,57 +1,68 @@
 #!/usr/bin/python3
-"""Square class"""
+"""This module contains a square class"""
+
 from models.rectangle import Rectangle
 
 
 class Square(Rectangle):
-    """Square class"""
-
+    """Represents a square"""
     def __init__(self, size, x=0, y=0, id=None):
-        """Init"""
-        super().__init__(size, size, x, y, id)
         self.size = size
+        self.x = x
+        self.y = y
+        self.id = None
+        super().__init__(size, size, x, y, id)
 
     def __str__(self):
-        """str"""
-        return "[{}] ({}) {}/{} - {}".format(type(self).__name__,
-                                             self.id, self.x,
-                                             self.y, self.width)
+        """Defines a format for the string representation of the class"""
+        return f"[Square] ({self.id}) {self.x}/{self.y} - {self.size}"
 
     @property
     def size(self):
-        """getter"""
-        return self.width
+        """Gets the value of size"""
+        return self.__width
 
     @size.setter
     def size(self, value):
-        """setter"""
-
-        if isinstance(value, int) is False:
+        """Sets the value for size"""
+        if type(value) is not int:
             raise TypeError("width must be an integer")
         if value <= 0:
             raise ValueError("width must be > 0")
-        self.width = value
-        self.height = value
+        self.__width = value
+        self.__height = value
 
     def update(self, *args, **kwargs):
-        """update"""
-        if args:
-            a = ["id", "size", "x", "y"]
-            for i, e in enumerate(args):
-                setattr(self, a[i], e)
-            return
+        """Updates attributes of an instance"""
 
-        for x, y in kwargs.items():
-            if hasattr(self, x):
-                setattr(self, x, y)
+        if args is not None and len(args) != 0:
+            if len(args) >= 1:
+                if type(args[0]) != int and args[0] is not None:
+                    raise TypeError("id must be an integer")
+                self.id = args[0]
+            if len(args) > 1:
+                self.size = args[1]
+            if len(args) > 2:
+                self.x = args[2]
+            if len(args) > 3:
+                self.y = args[3]
+        else:
+            for key, value in kwargs.items():
+                if key == "id":
+                    if type(value) != int and value is not None:
+                        raise TypeError("id must be an integer")
+                    self.id = value
+                if key == "size":
+                    self.size = value
+                if key == "x":
+                    self.x = value
+                if key == "y":
+                    self.y = value
 
     def to_dictionary(self):
-        """to dictionary"""
+        """Returns the dictionary representation of a Square"""
 
-        n_dict = {}
-        n_dict['id'] = self.id
-        n_dict['size'] = self.width
-        n_dict['x'] = self.x
-        n_dict['y'] = self.y
+        obj_dictionary = {'id': self.id, 'size': self.size, 'x': self.x,
+                          'y': self.y}
 
-        return n_dict
+        return obj_dictionary
